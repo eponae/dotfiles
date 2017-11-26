@@ -32,6 +32,10 @@ brew install fzf
 /usr/local/opt/fzf/install
 ```
 
+```
+brew install tldr
+```
+
 ## Node
 
 ### Binary
