@@ -31,9 +31,30 @@ ssh-keygen -t ed25519
 brew install fzf
 /usr/local/opt/fzf/install
 ```
+## TLDR
 
 ```
 brew install tldr
+```
+
+## Bash
+
+```
+brew install bash bash-completion
+```
+
+Then change default bash for root
+```
+sudo -s
+echo /usr/local/bin/bash >> /etc/shells
+chsh -s /usr/local/bin/bash
+exit
+```
+
+And also for current user
+```
+chsh -s /usr/local/bin/bash
+exit
 ```
 
 ## Node
