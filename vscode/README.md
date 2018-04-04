@@ -5,6 +5,8 @@
 ```
 code --install-extension dbaeumer.vscode-eslint
 code --install-extension donjayamanne.githistory
+code --install-extension huizhou.githd
+code --install-extension waderyan.gitblame
 code --install-extension dzannotti.vscode-babel-coloring
 code --install-extension esbenp.prettier-vscode
 code --install-extension joelday.docthis
