@@ -36,7 +36,8 @@
   "editor.formatOnPaste": true,
   "prettier.eslintIntegration": true,
   "editor.fontLigatures": true,
-  "editor.fontSize": 14,
+  "editor.fontSize": 15,
   "editor.multiCursorModifier": "ctrlCmd",
-  "terminal.integrated.fontSize": 14
+  "terminal.integrated.fontSize": 15,
+  "javascript.validate.enable": false
 }
