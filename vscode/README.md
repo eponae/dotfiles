@@ -17,4 +17,7 @@ code --install-extension formulahendry.auto-rename-tag
 code --install-extension humao.rest-client
 code --install-extension wayou.vscode-todo-highlight
 code --install-extension wix.vscode-import-cost
+code --install-extension angryobject.react-pure-to-class-vscode
+code --install-extension capaj.vscode-exports-autocomplete
+code --install-extension christian-kohler.npm-intellisense
 ```
