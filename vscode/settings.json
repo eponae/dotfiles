@@ -39,5 +39,9 @@
   "editor.fontSize": 15,
   "editor.multiCursorModifier": "ctrlCmd",
   "terminal.integrated.fontSize": 15,
-  "javascript.validate.enable": false
+  "javascript.validate.enable": false,
+  "files.insertFinalNewline": true,
+  "telemetry.enableTelemetry": false,
+  "telemetry.enableCrashReporter": false,
+  "git.ignoreMissingGitWarning": true
 }

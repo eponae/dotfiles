@@ -1,6 +1,0 @@
-#!/usr/bin/env sh
-
-if [ `which node 2>/dev/null | wc -l` -eq 1 ]; then
-  export PATH=${HOME}/.npm_packages/bin:${PATH}
-  alias npmi='npm install --ignore-scripts'
-fi

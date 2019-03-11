@@ -1,72 +1,50 @@
 # dotfiles
 
-Mainly inspired by [vibioh dotfiles](https://github.com/ViBiOh/dotfiles)
+## Prerequisite on macOS
+
+```bash
+xode-select --install
+```
 
 ## Installation
 
-```
-mkdir -p ${HOME}/Documents/dev
-cd ${HOME}/Documents/dev
-git clone git@github.com:eponae/dotfiles.git
+```bash
+mkdir -p ${HOME}/code/eponae/
+pushd ${HOME}/code/eponae/
+git clone https://github.com/eponae/dotfiles.git
 ./dotfiles/install.sh
+popd
+```
+
+### Configuration
+
+You can set followin environment variables for customizing installation behavior:
+
+* `DOTFILES_NO_NODE="true"` doesn't perform install of `install/node` file (replace `NODE` by any filename in `install/` dir)
+
+```bash
+# Server configuration example
+
+export DOTFILES_NO_ALACRITTY="true"
+export DOTFILES_NO_GOLANG="true"
+export DOTFILES_NO_GPG="true"
+export DOTFILES_NO_NODE="true"
+export DOTFILES_NO_PASS="true"
+export DOTFILES_NO_PYTHON="true"
+export DOTFILES_NO_PYTHON_PGCLI="true"
 ```
 
 ## SSH
 
-### Generate key and deploy key
-
-```
-ssh-keygen -t ed25519
+```bash
+ssh-keygen -t ed25519 -a 100 -C "$(whoami)@$(hostname)" -f ~/.ssh/id_ed25519
 ```
 
 ## Brew
 
-```
-/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-```
+Fix it with following command when it's broken.
 
-## FZF
-
-```
-brew install fzf
-/usr/local/opt/fzf/install
-```
-## TLDR
-
-```
-brew install tldr
-```
-
-## Bash
-
-```
-brew install bash bash-completion
-```
-
-Then change default bash for root
-```
-sudo -s
-echo /usr/local/bin/bash >> /etc/shells
-chsh -s /usr/local/bin/bash
-exit
-```
-
-And also for current user
-```
-chsh -s /usr/local/bin/bash
-exit
-```
-
-## Node
-
-### Binary
-
-[Install latest version](https://nodejs.org/en/download/)
-
-### Node tools
-
-```
-npm i -g npm
-npm i -g n
-sudo n latest
+```bash
+sudo chown -R $(whoami) $(brew --prefix)/*
+brew doctor
 ```

@@ -1,4 +1,0 @@
-#!/usr/bin/env sh
-
-CODE_HOME=${HOME}/Documents/dev/
-alias dev='cd ${CODE_HOME}'
