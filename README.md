@@ -1,26 +1,20 @@
 # dotfiles
 
-## Prerequisite on macOS
-
-```bash
-xode-select --install
-```
-
 ## Installation
 
 ```bash
-mkdir -p ${HOME}/code/eponae/
-pushd ${HOME}/code/eponae/
+mkdir -p ${HOME}/code/
+pushd ${HOME}/code/
 git clone https://github.com/eponae/dotfiles.git
-./dotfiles/install.sh
+./dotfiles/init.sh
 popd
 ```
 
 ### Configuration
 
-You can set followin environment variables for customizing installation behavior:
+You can set following environment variables for customizing installation behavior:
 
-* `DOTFILES_NO_NODE="true"` doesn't perform install of `install/node` file (replace `NODE` by any filename in `install/` dir)
+- `DOTFILES_NO_NODE="true"` doesn't perform install of `install/node` file (replace `NODE` by any uppercase filename in `install/` dir)
 
 ```bash
 # Server configuration example
@@ -31,7 +25,11 @@ export DOTFILES_NO_GPG="true"
 export DOTFILES_NO_NODE="true"
 export DOTFILES_NO_PASS="true"
 export DOTFILES_NO_PYTHON="true"
+export DOTFILES_NO_PYTHON_ANSIBLE="true"
+export DOTFILES_NO_PYTHON_ASCIINEMA="true"
 export DOTFILES_NO_PYTHON_PGCLI="true"
+export DOTFILES_NO_SUBLIME_TEXT="true"
+export DOTFILES_NO_TERRAFORM="true"
 ```
 
 ## SSH
@@ -45,6 +43,6 @@ ssh-keygen -t ed25519 -a 100 -C "$(whoami)@$(hostname)" -f ~/.ssh/id_ed25519
 Fix it with following command when it's broken.
 
 ```bash
-sudo chown -R $(whoami) $(brew --prefix)/*
+sudo chown -R "$(whoami)" "$(brew --prefix)"/*
 brew doctor
 ```

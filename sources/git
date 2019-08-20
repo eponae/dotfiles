@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+if ! command -v git > /dev/null 2>&1; then
+  return
+fi
+
+if command -v perl > /dev/null 2>&1 && [[ -f "${HOME}/opt/bin/diff-so-fancy" ]]; then
+  export GIT_PAGER="${HOME}/opt/bin/diff-so-fancy | less --tabs=4 -RFX"
+fi
+
+alias ...="git_root"
+
+git_root() {
+  git rev-parse --is-inside-work-tree > /dev/null 2>&1 && cd "$(git rev-parse --show-toplevel)"
+}

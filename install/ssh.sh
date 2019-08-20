@@ -1,25 +1,34 @@
 #!/usr/bin/env bash
 
-set -o errexit
-set -o nounset
-set -o pipefail
-readonly SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+set -o nounset -o pipefail -o errexit
 
-main() {
-  local MAC_OS_SSH_CONFIG=""
-  if [[ "${IS_MACOS}" = true ]]; then
-    MAC_OS_SSH_CONFIG="
+clean() {
+  if command -v stop_ssh_agent > /dev/null 2>&1; then
+    stop_ssh_agent
+  fi
+
+  rm -rf "${HOME}/.ssh/environment"
+  rm -rf "${HOME}/.ssh/known_hosts"
+}
+
+install() {
+  local EXTRA_CONFIG=""
+
+  if [[ "${OSTYPE}" =~ ^darwin ]]; then
+    EXTRA_CONFIG="
   UseKeyChain no"
   fi
+
+  mkdir -p "${HOME}/.ssh"
 
   echo "Host *
   PasswordAuthentication no
   ChallengeResponseAuthentication no
   ForwardAgent yes
-  HashKnownHosts yes${MAC_OS_SSH_CONFIG}
+  HashKnownHosts yes${EXTRA_CONFIG}
   ServerAliveInterval 300
   ServerAliveCountMax 2
 " > "${HOME}/.ssh/config"
-}
 
-main
+  find "${HOME}/.ssh/" -name "config_*" -type f -exec cat {} + >> "${HOME}/.ssh/config"
+}
