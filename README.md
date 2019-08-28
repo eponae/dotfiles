@@ -46,3 +46,9 @@ Fix it with following command when it's broken.
 sudo chown -R "$(whoami)" "$(brew --prefix)"/*
 brew doctor
 ```
+
+## ZbarImg, Pass and Two factors authentication
+
+```bash
+zbarimg -q --raw paht_to_qrcode_image | pass otp append path_to_password_associated
+```
