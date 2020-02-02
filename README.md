@@ -1,5 +1,7 @@
 # dotfiles
 
+Mainly inspired by @ViBiOh
+
 ## Installation
 
 ```bash
