@@ -11,18 +11,20 @@
 [diff]
 	mnemonicPrefix = true
 	renames = true
+	colorMoved = default
 
 [push]
 	default = current
 
 [alias]
-	sweep = "!f() { git prune && git gc && git branch --merged | egrep -v '(^\\*|master)' | xargs git branch -d; }; f"
-	co = "!f() { git checkout "$(git branch -vv --all | fzf --height 30 --ansi --reverse -1 -q ${1:-"remotes/"} | awk '{print $1}' | sed 's|^remotes/origin/||')"; }; f"
+	sweep = ! git prune && git remote prune origin && git branch --list --format '%(if:equals=[gone])%(upstream:track)%(then)%(refname:short)%(end)' | grep -E -v '^$' | xargs git branch -D && git gc
+	co = "! git checkout \"$(git branch -vv --all | fzf --height 20 --ansi -1 --reverse -q \"remotes/${1:-}\" | awk '{print $1}' | sed 's|^remotes/origin/||')\" #"
 	pushu = push -u
 	s = status -sb
 	d = diff -w
 	unstage = reset HEAD --
-	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'
+  log-pretty = log --color --pretty=format:'%Cred%h%Creset%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'
+	lg = log-pretty --graph
 
 [log]
 	abbrevCommit = true
@@ -41,20 +43,3 @@
 
 [color]
 	ui = true
-
-[color "branch"]
-	upstream = cyan
-
-[color "diff-highlight"]
-	oldNormal = red bold
-	oldHighlight = red bold 52
-	newNormal = green bold
-	newHighlight = green bold 22
-
-[color "diff"]
-	meta = yellow
-	frag = magenta bold
-	commit = yellow bold
-	old = red bold
-	new = green bold
-	whitespace = red reverse

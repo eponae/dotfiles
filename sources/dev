@@ -1,10 +1,15 @@
 #!/usr/bin/env bash
 
-alias dev="cd ${HOME}/Documents/dev/"
-alias grep="grep --color=auto"
+alias dev='cd ${HOME}/code/'
+alias grep='grep --color=auto'
+alias vi='vim'
 
-export EDITOR=vim
-export TERM=xterm-256color
+export EDITOR='vim'
+export TERM='xterm-256color'
+
+if command -v xdg-open >/dev/null 2>&1 && ! command -v open >/dev/null 2>&1; then
+  alias open='xdg-open'
+fi
 
 bump_deps() {
   if [[ -e "package.json" ]]; then

@@ -1,16 +1,14 @@
 #!/usr/bin/env bash
 
-[[ -z "${PS1:-}" ]] && return
-
-readonly BASHRC_PATH="$(python -c 'import sys; import os.path; print(os.path.realpath(sys.argv[1]))' "${BASH_SOURCE[0]}")"
-readonly DOTFILES_PATH="$(dirname ${BASHRC_PATH})"
+[[ -z ${PS1:-} ]] && return
 
 set_locale() {
-  local LOCALES=("en_US.UTF-8" "C.UTF-8" "C")
-  local ALL_LOCALES="$(locale -a)"
+  local LOCALES=("en_US.UTF-8" "en_US.utf8" "C.UTF-8" "C")
+  local ALL_LOCALES
+  ALL_LOCALES="$(locale -a)"
 
   for locale in "${LOCALES[@]}"; do
-    if [[ "$(echo "${ALL_LOCALES}" | grep "${locale}" | wc -l)" -eq 1 ]]; then
+    if [[ $(echo "${ALL_LOCALES}" | grep -c "${locale}") -eq 1 ]]; then
       export LC_ALL="${locale}"
       export LANG="${locale}"
       export LANGUAGE="${locale}"
@@ -23,11 +21,21 @@ set_locale() {
 }
 
 source_all() {
+  local BASHRC_PATH
+  BASHRC_PATH="$(python -c 'import sys; import os.path; print(os.path.realpath(sys.argv[1]))' "${BASH_SOURCE[0]}")"
+  local DOTFILES_PATH
+  DOTFILES_PATH="$(dirname "${BASHRC_PATH}")"
+
+  local LC_ALL="C"
   local LANG="C"
 
+  shopt -s nullglob
+
   for file in "${DOTFILES_PATH}/../sources/"*; do
-    [[ -r "${file}" ]] && [[ -f "${file}" ]] && source "${file}"
+    [[ -r ${file} ]] && [[ -f ${file} ]] && source "${file}"
   done
+
+  shopt -u nullglob
 }
 
 set_locale
@@ -36,3 +44,6 @@ source_all
 if [[ -e "${HOME}/.localrc" ]]; then
   source "${HOME}/.localrc"
 fi
+
+unset -f set_locale
+unset -f source_all

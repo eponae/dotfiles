@@ -1,39 +1,64 @@
 #!/usr/bin/env bash
 
+SSH_SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 SSH_ENV="${HOME}/.ssh/environment"
-SSH_KEY="${HOME}/.ssh/id_ed25519"
 
-if [[ ! -e "${SSH_KEY}" ]]; then
-  SSH_KEY="${HOME}/.ssh/id_rsa"
-fi
-
-start_ssh_agent() {
-  if [[ -e "${SSH_KEY}" ]]; then
-    echo "Initializing new SSH agent..."
-
-    touch "${SSH_ENV}"
-    chmod 600 "${SSH_ENV}"
-
-    ssh-agent | sed 's/^echo/#echo/' > "${SSH_ENV}"
-    source "${SSH_ENV}" > /dev/null
-    ssh-add -k "${SSH_KEY}"
+ssh_agent_running() {
+  if ps -p "${SSH_AGENT_PID:-}" >/dev/null 2>&1; then
+    printf "true"
+  else
+    printf "false"
   fi
 }
 
-stop_ssh_agent() {
-  if [[ -n "${SSH_AGENT_PID:-}" ]]; then
-    kill -0 "${SSH_AGENT_PID}" 2>/dev/null
+ssh_agent_stop() {
+  if [[ $(ssh_agent_running) == "true" ]]; then
+    ssh-agent -k
+
+    source <(sed 's|export|unset|' "${SSH_ENV}")
+    rm -rf "${SSH_ENV:?}"
+  fi
+
+  for pid in $(pgrep 'ssh-agent'); do
+    kill -9 "${pid}"
+  done
+}
+
+ssh_agent_start() {
+  printf "Initializing new SSH agent...\n"
+
+  touch "${SSH_ENV}"
+  chmod 600 "${SSH_ENV}"
+
+  ssh-agent | grep -v "^echo" >"${SSH_ENV}"
+  source "${SSH_ENV}"
+}
+
+ssh_agent_init() {
+  ssh_agent_stop
+
+  if [[ -d "${HOME}/.ssh/" ]]; then
+    local AGENT_INITIALIZED="false"
+
+    while IFS= read -r -d '' key; do
+      if [[ ${AGENT_INITIALIZED} == "false" ]]; then
+        AGENT_INITIALIZED="true"
+        ssh_agent_start
+      fi
+
+      ssh-add -k "${key%.pub}"
+    done < <(find "${HOME}/.ssh" -type f -name '*.pub' -print0)
   fi
 }
 
-if [[ -f "${SSH_ENV}" ]]; then
-  source "${SSH_ENV}" > /dev/null
-
-  if [[ -n "${SSH_AGENT_PID:-}" ]]; then
-    kill -0 "${SSH_AGENT_PID}" 2>/dev/null || {
-      start_ssh_agent
-    }
+ssh_init() {
+  if [[ -f ${SSH_ENV:-} ]]; then
+    source "${SSH_ENV}"
   fi
-else
-    start_ssh_agent
-fi
+
+  if [[ $(ssh_agent_running) == "false" ]] && [[ $(type -t ssh_agent_init) == "function" ]]; then
+    ssh_agent_init
+  fi
+}
+
+ssh_init
