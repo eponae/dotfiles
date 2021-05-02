@@ -2,6 +2,9 @@
 	name = Alice Rimassa
 	email = alice@eponae.fr
 
+[includeIf "gitdir:~/workspace/"]
+	path = ~/.gitconfig_work
+
 [core]
 	editor = vi
 	autocrlf = input

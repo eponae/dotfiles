@@ -1,10 +1,6 @@
 {
   "window.title": "${activeEditorMedium}${separator}${rootName}",
   "workbench.startupEditor": "none",
-  "editor.renderWhitespace": "all",
-  "editor.wordWrap": "on",
-  "editor.folding": false,
-  "editor.dragAndDrop": false,
   "files.watcherExclude": {
     "**/.git/objects/**": true,
     "**/.git/subtree-cache/**": true,
@@ -28,6 +24,10 @@
     "**/coverage/": true,
     "**/.nyc_output/": true
   },
+  "editor.renderWhitespace": "all",
+  "editor.wordWrap": "on",
+  "editor.folding": false,
+  "editor.dragAndDrop": false,
   "editor.rulers": [100],
   "editor.snippetSuggestions": "top",
   "editor.tabCompletion": true,
@@ -43,5 +43,33 @@
   "files.insertFinalNewline": true,
   "telemetry.enableTelemetry": false,
   "telemetry.enableCrashReporter": false,
-  "git.ignoreMissingGitWarning": true
+  "git.ignoreMissingGitWarning": true,
+  "editor.gotoLocation.multipleDefinitions": "goto",
+  "editor.gotoLocation.multipleTypeDefinitions": "goto",
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+  "[javascriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact"
+  ],
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  }
 }
