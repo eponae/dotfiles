@@ -1,6 +1,6 @@
 # dotfiles
 
-Mainly inspired by [@ViBiOh](https://github.com/ViBiOh)
+Mainly inspired by [@ViBiOh](https://github.com/ViBiOh) (2021)
 
 ## Installation
 
